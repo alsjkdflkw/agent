@@ -217,8 +217,17 @@ __marimo__/
 *.h5
 *.model
 *.weights
+models/
+checkpoints/
+
+# Training outputs
+training_progress.png
+*.png
 
 # Temporary test files
 *_test.py
 test_*.txt
 temp_*
+
+# Matplotlib cache
+.matplotlib/
