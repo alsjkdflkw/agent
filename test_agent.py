@@ -9,8 +9,34 @@ import os
 import joblib
 from uno.env import UnoEnv
 from uno.dqn_agent import DQNAgent
-from uno.agents import QLearningAgent, RandomAgent
+from uno.agents import QLearningAgent, RandomAgent, BaseAgent
 from uno.tournament import Tournament
+
+
+class GymnasiumToBaseAgentWrapper(BaseAgent):
+    """
+    Wrapper to make GymnasiumAgent compatible with Tournament class.
+    
+    Tournament class expects BaseAgent interface (select_action with state, legal_actions).
+    GymnasiumAgent expects observation dict.
+    """
+    
+    def __init__(self, gymnasium_agent):
+        self.agent = gymnasium_agent
+    
+    def select_action(self, state, legal_actions):
+        """
+        Convert Tournament's interface to GymnasiumAgent's interface.
+        
+        Args:
+            state: Raw state from Tournament
+            legal_actions: List of legal actions
+            
+        Returns:
+            Selected action index
+        """
+        # GymnasiumAgent expects observation dict
+        return self.agent.select_action(state, legal_actions)
 
 
 def load_dqn_agent(model_path, env):
@@ -73,8 +99,11 @@ def test_against_qlearning(dqn_path='evolution/best_agent.pkl',
     print(f"\n[*] Running {num_games} game tournament...")
     print("[*] This is READ-ONLY - no models will be modified\n")
     
+    # Wrap DQN agent for compatibility with Tournament class
+    wrapped_dqn = GymnasiumToBaseAgentWrapper(dqn_agent)
+    
     # Run tournament
-    tournament = Tournament(env, [dqn_agent, qlearning_agent])
+    tournament = Tournament(env, [wrapped_dqn, qlearning_agent])
     payoffs = tournament.run_tournament(num_games)
     
     print("\n" + "="*70)
@@ -105,8 +134,11 @@ def test_against_random(dqn_path='evolution/best_agent.pkl', num_games=100):
     print(f"\n[*] Running {num_games} game tournament...")
     print("[*] This is READ-ONLY - no models will be modified\n")
     
+    # Wrap DQN agent for compatibility with Tournament class
+    wrapped_dqn = GymnasiumToBaseAgentWrapper(dqn_agent)
+    
     # Run tournament
-    tournament = Tournament(env, [dqn_agent, random_agent])
+    tournament = Tournament(env, [wrapped_dqn, random_agent])
     payoffs = tournament.run_tournament(num_games)
     
     print("\n" + "="*70)
