@@ -219,6 +219,7 @@ __marimo__/
 *.weights
 models/
 checkpoints/
+evolution/
 
 # Training outputs
 training_progress.png
