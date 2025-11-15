@@ -1,6 +1,7 @@
 from uno.env import UnoEnv
 from uno.agents import QLearningAgent, RandomAgent
 from uno.tournament import Tournament
+import time as t
 import joblib
 
 
@@ -8,12 +9,12 @@ if __name__ == "__main__":
 
 
     # example usage: training and testing a Q-learning agent
-    train = False  # Set to False to skip training and only test
+    train = True  # Set to False to skip training and only test
     agent = QLearningAgent()  # qlearning agent, generally dosent perform well on games with this many states, so build your own :D
     opponent_agent = RandomAgent()
 
     if train:
-        env = UnoEnv(render_mode=None)
+        env = UnoEnv(render_mode="human")
 
         num_episodes = 5000
         for episode in range(num_episodes):
@@ -22,6 +23,7 @@ if __name__ == "__main__":
 
             cumulative_reward = 0
             while not done:
+                t.sleep(1)
                 current_player_id = info["player_id"]
                 legal_actions = info["legal_actions"]
 
