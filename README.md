@@ -7,6 +7,7 @@ Witamy na hackathonie **Noc Sztucznej Inteligencji**! Twoim zadaniem jest stworz
 ## 📋 Spis Treści
 
 - [Szybki Start](#szybki-start)
+- [**🆕 Gymnasium API Agent**](#-gymnasium-api-agent-new)
 - [Struktura Projektu](#struktura-projektu)
 - [Jak Stworzyć Swojego Agenta](#jak-stworzyć-swojego-agenta)
 - [Struktura Stanu Gry](#struktura-stanu-gry)
@@ -34,7 +35,57 @@ pip install rlcard gymnasium numpy joblib torch
 ```bash
 # Uruchom przykładową grę z losowym agentem
 python main.py
+
+# LUB użyj nowego Gymnasium API:
+python example_gymnasium_agent.py
 ```
+
+## 🆕 Gymnasium API Agent (NEW)
+
+Dodaliśmy nowy, bardziej standardowy interfejs oparty na Gymnasium API!
+
+### Szybki Start z Gymnasium
+
+```bash
+# Uruchom przykładowy agent
+python example_gymnasium_agent.py
+
+# Uruchom testy
+python test_gymnasium_agent.py
+```
+
+### Dlaczego Gymnasium API?
+
+- **Standardowy interfejs**: Kompatybilny z popularnymi bibliotekami RL
+- **Łatwiejsze testowanie**: Gotowe narzędzia do ewaluacji
+- **Czytelniejszy kod**: Wyraźny podział odpowiedzialności
+- **Przykłady i dokumentacja**: Szczegółowe instrukcje i szablony
+
+### Dokumentacja Gymnasium API
+
+- 📖 **[GYMNASIUM_QUICKSTART.md](GYMNASIUM_QUICKSTART.md)** - Szybki start (5 minut)
+- 📚 **[TESTING_INSTRUCTIONS.md](TESTING_INSTRUCTIONS.md)** - Kompletna dokumentacja
+- 💻 **[example_gymnasium_agent.py](example_gymnasium_agent.py)** - Prosty przykład
+- 🧪 **[test_gymnasium_agent.py](test_gymnasium_agent.py)** - Zestaw testów
+
+### Przykład Tworzenia Agenta z Gymnasium API
+
+```python
+from uno.gymnasium_agent import GymnasiumAgent
+from uno.env import UnoEnv
+
+class MojAgent(GymnasiumAgent):
+    def select_action(self, observation, legal_actions):
+        # Twoja logika wyboru akcji
+        # Musisz zwrócić akcję z legal_actions
+        return legal_actions[0]
+
+# Testowanie agenta
+env = UnoEnv(render_mode=None)
+agent = MojAgent(env.action_space, env.observation_space)
+```
+
+**Uwaga**: Możesz używać zarówno starszego interfejsu (`BaseAgent`), jak i nowego (`GymnasiumAgent`). Oba działają z tym samym środowiskiem!
 
 ## 📁 Struktura Projektu
 
@@ -42,13 +93,18 @@ python main.py
 Noc-Sztucznej-Inteligencji-25/
 │
 ├── uno/
-│   ├── env.py              # Środowisko gry Uno
-│   ├── agents.py           # Implementacje agentów (TU PRACUJESZ!)
-│   └── tournament.py       # System turniejowy
+│   ├── env.py                  # Środowisko gry Uno
+│   ├── agents.py               # Implementacje agentów (BaseAgent)
+│   ├── gymnasium_agent.py      # 🆕 Gymnasium API agents
+│   └── tournament.py           # System turniejowy
 │
-├── main.py                 # Główny plik do trenowania i testowania
-├── uno_rules.md            # Szczegółowe zasady gry Uno
-└── README.md               # Ten plik
+├── main.py                     # Główny plik do trenowania i testowania
+├── example_gymnasium_agent.py  # 🆕 Przykład Gymnasium API
+├── test_gymnasium_agent.py     # 🆕 Testy Gymnasium API
+├── GYMNASIUM_QUICKSTART.md     # 🆕 Szybki start Gymnasium
+├── TESTING_INSTRUCTIONS.md     # 🆕 Pełna dokumentacja testów
+├── uno_rules.md                # Szczegółowe zasady gry Uno
+└── README.md                   # Ten plik
 ```
 
 ## 🤖 Jak Stworzyć Swojego Agenta
