@@ -130,6 +130,20 @@ python train_dqn_agent.py --episodes 5000
 - 💻 **[train_dqn_agent.py](train_dqn_agent.py)** - Skrypt trenujący
 - 🧪 **[test_dqn_agent.py](test_dqn_agent.py)** - Narzędzie testowe
 
+### Porównanie Agentów
+
+Porównaj DQN agenta z wbudowanym Q-Learning agentem z `main.py`:
+
+```bash
+# Szybkie porównanie (bez treningu)
+python compare_agents.py --quick
+
+# Porównanie wytrenowanych agentów
+python compare_agents.py --dqn-model models/dqn_agent_final.pkl --games 100
+```
+
+Zobacz **[COMPARE_AGENTS_GUIDE.md](COMPARE_AGENTS_GUIDE.md)** dla szczegółów.
+
 **Uwaga**: Możesz używać zarówno starszego interfejsu (`BaseAgent`), jak i nowego (`GymnasiumAgent`). Oba działają z tym samym środowiskiem!
 
 ## 📁 Struktura Projektu
